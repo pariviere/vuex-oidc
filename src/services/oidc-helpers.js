@@ -1,8 +1,8 @@
 import { objectAssign, parseJwt, firstLetterUppercase, camelCaseToSnakeCase } from './utils'
-import oidc from 'oidc-client'
+import { WebStorageStateStore, UserManager } from 'oidc-client-ts'
 
 const defaultOidcConfig = {
-  userStore: new oidc.WebStorageStateStore(),
+  userStore: new WebStorageStateStore(),
   loadUserInfo: true,
   automaticSilentSignin: true
 }
@@ -61,7 +61,7 @@ export const createOidcUserManager = (oidcSettings) => {
       throw new Error('Required oidc setting ' + requiredProperty + ' missing for creating UserManager')
     }
   })
-  return new oidc.UserManager(oidcConfig)
+  return new UserManager(oidcConfig)
 }
 
 export const addUserManagerEventListener = (oidcUserManager, eventName, eventListener) => {
@@ -79,7 +79,7 @@ export const removeUserManagerEventListener = (oidcUserManager, eventName, event
 }
 
 export const processSilentSignInCallback = () => {
-  return new oidc.UserManager().signinSilentCallback()
+  return new UserManager().signinSilentCallback()
 }
 
 export const processSignInCallback = (oidcSettings) => {
